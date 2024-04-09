@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback Page</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-image: url(bg1.gif);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blur-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  z-index: -1;
+}
+
+.container {
+  max-width: 400px; /* Adjust as needed */
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.feedback-options {
+  margin-bottom: 20px;
+}
+
+.option {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.option:hover {
+  text-decoration: underline;
+}
+
+.rating {
+  margin-bottom: 20px;
+}
+
+.star {
+  font-size: 30px;
+  cursor: pointer;
+  color: gray;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 20px;
+  resize: none;
+}
+
+input[type="text"], input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.home-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.home-button:hover {
+  background-color: #ddd;
+  color: #000;
+}
+</style>
+</head>
+<body>
+<div class="blur-background"></div>
+<div class="container">
+  <h2>Leave your feedback</h2>
+  <input type="text" id="name" placeholder="Your Name">
+  <input type="email" id="email" placeholder="Your Email">
+  <div class="feedback-options">
+    <div class="option" data-rating="1">Poor</div>
+    <div class="option" data-rating="2">Fair</div>
+    <div class="option" data-rating="3">Average</div>
+    <div class="option" data-rating="4">Good</div>
+    <div class="option" data-rating="5">Excellent</div>
+  </div>
+  <div class="rating">
+    <input type="hidden" id="selected-rating" name="rating" value="">
+    <span class="star" data-rating="1">&#9733;</span>
+    <span class="star" data-rating="2">&#9733;</span>
+    <span class="star" data-rating="3">&#9733;</span>
+    <span class="star" data-rating="4">&#9733;</span>
+    <span class="star" data-rating="5">&#9733;</span>
+  </div>
+  <textarea id="feedback" placeholder="Enter your feedback here"></textarea>
+  <button id="submit-btn">Submit</button>
+  <a href="index.html" class="home-button">Home</a>
+</div>
+<script>
+const stars = document.querySelectorAll('.star');
+const ratingInput = document.getElementById('selected-rating');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const feedbackInput = document.getElementById('feedback');
+const submitButton = document.getElementById('submit-btn');
+
+stars.forEach(star => {
+  star.addEventListener('click', () => {
+    const rating = parseInt(star.getAttribute('data-rating'));
+    ratingInput.value = rating;
+    highlightStars(rating);
+  });
+});
+
+submitButton.addEventListener('click', () => {
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim();
+  const rating = ratingInput.value.trim();
+  const feedback = feedbackInput.value.trim();
+
+  if (name === '' || email === '' || rating === '' || feedback === '') {
+    alert('Please fill in all fields');
+    return;
+  }
+
+  // Here you can handle the submission, for demonstration purpose, let's just log the values
+  console.log('Name:', name);
+  console.log('Email:', email);
+  console.log('Rating:', rating);
+  console.log('Feedback:', feedback);
+
+  // Optionally, you can clear the form after submission
+  nameInput.value = '';
+  emailInput.value = '';
+  ratingInput.value = '';
+  feedbackInput.value = '';
+
+  alert('Thank you for your feedback!');
+});
+
+function highlightStars(rating) {
+  stars.forEach(star => {
+    if (parseInt(star.getAttribute('data-rating')) <= rating) {
+      star.style.color = '#f0ad4e'; // yellow color for filled stars
+    } else {
+      star.style.color = 'gray'; // gray color for empty stars
+    }
+  });
+}
+</script>
+</body>
+</html>
